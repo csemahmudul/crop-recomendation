@@ -4,11 +4,19 @@ import pickle
 import numpy as np
 from flask import Flask, request, render_template
 
+
+
+
 # Create flask app
 flask_app = Flask(__name__)
 
-# Load the model
-model = pickle.load(open("joy.pkl", "rb"))
+# Load the model with error handling
+try:
+    model = pickle.load(open("joy.pkl", "rb"))
+except (FileNotFoundError, IOError, pickle.UnpicklingError) as e:
+    model = None
+    print(f"Error loading the model file: {e}")
+
 
 @flask_app.route("/")
 def home():
