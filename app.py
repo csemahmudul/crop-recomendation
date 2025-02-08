@@ -1,6 +1,8 @@
-from flask import Flask, request, render_template
-import numpy as np
+import os
 import pickle
+
+import numpy as np
+from flask import Flask, request, render_template
 
 # Create flask app
 flask_app = Flask(__name__)
@@ -20,4 +22,6 @@ def predict():
     return render_template("index.html", prediction_text="The Predicted Crop is {}".format(prediction[0]))
 
 if __name__ == "__main__":
-    flask_app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if PORT is not set
+    flask_app.run(host="0.0.0.0", port=port, debug=True)
+
